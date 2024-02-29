@@ -16,7 +16,7 @@ namespace KonyvtarAsztaliKonzolos
         public DB()
         {
             MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
-            builder.Server = "192.168.1.58";
+            builder.Server = "1localhost";
             builder.UserID = "root";
             builder.Password = "";
             builder.Database = "konyvek";
