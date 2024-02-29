@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KonyvtarAsztaliKonzolos
 {
-    internal class Statisztika
+    public class Statisztika
     {
         public List<Book> books = new List<Book>();
         public Statisztika()

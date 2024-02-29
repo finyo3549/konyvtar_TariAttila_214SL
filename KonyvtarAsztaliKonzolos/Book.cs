@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KonyvtarAsztaliKonzolos
 {
-    internal class Book
+    public class Book
     {
         private string author;
         private int id;
@@ -21,6 +21,10 @@ namespace KonyvtarAsztaliKonzolos
             Page_count = page_count;
             Title = title;
             Publish_year = publish_year;
+        }
+
+        public Book()
+        {
         }
 
         public string Author { get => author; set => author = value; }

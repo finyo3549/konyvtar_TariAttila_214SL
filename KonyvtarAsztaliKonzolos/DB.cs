@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 namespace KonyvtarAsztaliKonzolos
 {
 
-    internal class DB
+    public class DB
     {
         MySqlConnection conn;
         public MySqlCommand sql { get; private set; }
@@ -16,7 +16,7 @@ namespace KonyvtarAsztaliKonzolos
         public DB()
         {
             MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
-            builder.Server = "1localhost";
+            builder.Server = "localhost";
             builder.UserID = "root";
             builder.Password = "";
             builder.Database = "konyvek";
@@ -29,14 +29,14 @@ namespace KonyvtarAsztaliKonzolos
             }
             catch (MySqlException e)
             {
-                Console.WriteLine   (e.Message);
+                Console.WriteLine(e.Message);
                 Environment.Exit(0);
             }
             finally
             {
                 kapcsolatZar();
             }
-            
+
         }
         public void kapcsolatZar()
         {
@@ -47,7 +47,73 @@ namespace KonyvtarAsztaliKonzolos
         {
             if (conn.State != System.Data.ConnectionState.Open) conn.Open();
         }
-    }
+        public void Patch(Book book)
+        {
 
- }
+            sql.CommandText = "UPDATE `books` SET `id`=@id,`title`=@title,`author`=@author,`publish_year`=@publish_year,`page_count`=@page_count WHERE `id`= @id";
+            sql.Parameters.Clear();
+            sql.Parameters.AddWithValue("@id", book.Id);
+            sql.Parameters.AddWithValue("@title", book.Title);
+            sql.Parameters.AddWithValue("@author", book.Author);
+            sql.Parameters.AddWithValue("@publish_year", book.Publish_year);
+            sql.Parameters.AddWithValue("@page_count", book.Page_count);
+            try
+            {
+                kapcsolatNyit();
+                sql.ExecuteNonQuery();
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                kapcsolatZar();
+            }
+        }
+        public void Delete(Book book)
+        {
+
+            sql.CommandText = "DELETE FROM `books` WHERE `id`= @id";
+
+            try
+            {
+                kapcsolatNyit();
+                sql.ExecuteNonQuery();
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                kapcsolatZar();
+            }
+        }
+        public void Insert(Book book)
+        {
+            sql.CommandText = "INSERT INTO `books`(`title`, `author`, `publish_year`, `page_count`) VALUES (@title,@author,@publish_year,@page_count)";
+            sql.Parameters.Clear();
+            sql.Parameters.AddWithValue("@title", book.Title);
+            sql.Parameters.AddWithValue("@author", book.Author);
+            sql.Parameters.AddWithValue("@publish_year", book.Publish_year);
+            sql.Parameters.AddWithValue("@page_count", book.Page_count);
+            try
+            {
+                kapcsolatNyit();
+                sql.ExecuteNonQuery();
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                kapcsolatZar();
+            }
+        }   
+    }
+}
+
+
 
